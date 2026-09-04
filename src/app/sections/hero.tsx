@@ -4,16 +4,15 @@ import { Container, Eyebrow, Button } from "@/components/ui";
 
 export default function Hero() {
   return (
-    <section className="relative isolate grid min-h-[min(94svh,48rem)] grid-rows-[1fr_auto] overflow-hidden border-b border-hairline">
+    <section className="relative isolate grid min-h-[min(100svh,56rem)] grid-rows-[1fr_auto] overflow-hidden border-b border-hairline sm:min-h-[min(94svh,48rem)]">
       <div className="absolute inset-0 -z-10">
         <Image
           src={hero.image.src}
           alt={hero.image.alt}
-          width={hero.image.width}
-          height={hero.image.height}
+          fill
           priority
           sizes="100vw"
-          className="h-full w-full object-cover object-[center_38%] [filter:saturate(1.04)_contrast(1.03)]"
+          className="object-cover object-[center_38%] [filter:saturate(1.04)_contrast(1.03)]"
         />
         <div className="absolute inset-0 [background:linear-gradient(to_top,var(--background)_2%,color-mix(in_oklab,var(--background)_34%,transparent)_44%,color-mix(in_oklab,var(--background)_74%,transparent)_100%),linear-gradient(105deg,color-mix(in_oklab,var(--background)_78%,transparent)_8%,transparent_62%)]" />
       </div>
