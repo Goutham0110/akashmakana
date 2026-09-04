@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   AM Productions design tokens. Dark-only by design: the site should feel like
+   the venue at night. Ported from docs/design/assets/base.css. Colour comes
+   from photography; the UI stays near-black, bone-white and one ember orange.
+   --------------------------------------------------------------------------- */
+:root {
+  /* Surfaces */
+  --background: #08080a;
+  --surface: #101014;
+  --surface-sunken: #050506;
+
+  /* Ink */
+  --foreground: #f5f0e8; /* 17.6:1 on --background */
+  --muted: #b0a99c; /* 8.6:1 - safe for body copy */
+  --faint: #8a8478; /* 5.4:1 - labels, captions, display numbers */
+  --hairline: rgba(245, 240, 232, 0.12);
+  --hairline-strong: rgba(245, 240, 232, 0.22);
+
+  /* Ember accent */
+  --accent: #ff6a1a;
+  --accent-bright: #ff8438;
+  --accent-contrast: #0a0602; /* 7.1:1 on --accent */
+  --accent-glow: rgba(255, 106, 26, 0.32);
+
+  /* Error (form states) */
+  --danger: #ff6b5e;
+  --danger-text: #ff8f84;
+
+  /* Radii - mostly square; this is poster/flyer, not soft SaaS */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-pill: 999px;
+
+  /* Rhythm - fluid, varied */
+  --space-3xs: 0.375rem;
+  --space-2xs: 0.625rem;
+  --space-xs: 1rem;
+  --space-sm: 1.5rem;
+  --space-md: clamp(2rem, 4vw, 3rem);
+  --space-lg: clamp(3rem, 7vw, 5.5rem);
+  --space-xl: clamp(4.5rem, 11vw, 9rem);
+
+  --container: 78rem;
+  --measure: 66ch;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 140ms;
+  --dur: 240ms;
+  --dur-slow: 420ms;
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-hairline: var(--hairline);
+  --color-hairline-strong: var(--hairline-strong);
+  --color-accent: var(--accent);
+  --color-accent-bright: var(--accent-bright);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-danger: var(--danger);
+  --color-danger-text: var(--danger-text);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-pill: var(--radius-pill);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+
+  --ease-out: var(--ease-out);
+
+  --container-site: 78rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  /* framer-motion useScroll measures against documentElement */
+  position: relative;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img,
+picture,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-bright);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* --------------------------------------------------------------------------
+   Display type. Anton is a heavy compressed grotesque; it carries the
+   flyposter energy. Uppercase, tight leading.
+   -------------------------------------------------------------------------- */
+.display {
+  font-family: var(--font-display), var(--font-sans), sans-serif;
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+/* --------------------------------------------------------------------------
+   Settle-in on scroll. Content is ALWAYS visible by default. The hidden
+   state is applied only by the `.settle-armed` class, which the Reveal
+   client component adds to <html> after it has set up the observer and a
+   hard fallback timeout. No JS / reduced motion / headless => always visible.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .settle-armed [data-settle],
+  .settle-armed [data-settle-stagger] > * {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity var(--dur-slow) var(--ease-out),
+      transform var(--dur-slow) var(--ease-out);
+  }
+  .settle-armed [data-settle].is-in,
+  .settle-armed [data-settle-stagger].is-in > * {
+    opacity: 1;
+    transform: none;
+  }
+  .settle-armed [data-settle-stagger].is-in > *:nth-child(2) {
+    transition-delay: 60ms;
+  }
+  .settle-armed [data-settle-stagger].is-in > *:nth-child(3) {
+    transition-delay: 120ms;
+  }
+  .settle-armed [data-settle-stagger].is-in > *:nth-child(4) {
+    transition-delay: 180ms;
+  }
+  .settle-armed [data-settle-stagger].is-in > *:nth-child(5) {
+    transition-delay: 240ms;
+  }
+  .settle-armed [data-settle-stagger].is-in > *:nth-child(6) {
+    transition-delay: 300ms;
+  }
+}
+
+/* Hero marquee */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}

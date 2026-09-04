@@ -1,0 +1,11 @@
+
+> aakash@0.1.0 dev
+> next dev --turbopack
+
+ ⚠ Port 3000 is in use by process 4220, using available port 3008 instead.
+   ▲ Next.js 15.5.6 (Turbopack)
+   - Local:        http://localhost:3008
+   - Network:      http://172.30.160.1:3008
+
+ ✓ Starting...
+ ✓ Ready in 1775ms

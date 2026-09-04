@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AM Productions - DJ nights, standup and live shows across India</title>
+<meta name="description" content="AM Productions is an event production house run by Akash Makana. We build DJ nights, standup comedy tours and live music shows across India, from the booking to the last song." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+<link rel="stylesheet" href="assets/base.css" />
+<style>
+  /* ---------------------------------------------------------------------
+     Home-page-specific composition. Shared system lives in base.css.
+     --------------------------------------------------------------------- */
+
+  /* ---- Hero ---- */
+  .hero {
+    position: relative;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    min-height: min(94svh, 48rem);
+    overflow: hidden;
+    border-bottom: 1px solid var(--surface-line);
+    isolation: isolate;
+  }
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+  .hero__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 38%;
+    filter: saturate(1.04) contrast(1.03);
+  }
+  .hero__media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to top, var(--bg) 2%, color-mix(in oklab, var(--bg) 34%, transparent) 44%, color-mix(in oklab, var(--bg) 74%, transparent) 100%),
+      linear-gradient(105deg, color-mix(in oklab, var(--bg) 78%, transparent) 8%, transparent 62%);
+  }
+  .hero__inner {
+    position: relative;
+    align-self: end;
+    padding-block: var(--space-xl) var(--space-lg);
+    max-width: 54rem;
+  }
+  .hero h1 {
+    margin-bottom: var(--space-md);
+    max-width: 15ch;
+  }
+  .hero h1 .em { color: var(--ember); display: block; }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-md);
+  }
+  .hero__note {
+    max-width: 46ch;
+    color: var(--ink);
+    font-size: 1.05rem;
+  }
+
+  .hero__marquee {
+    position: relative;
+    border-top: 1px solid var(--surface-line);
+    background: color-mix(in oklab, var(--bg) 88%, transparent);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    overflow: hidden;
+    display: none;
+  }
+  @media (min-width: 48rem) {
+    .hero__marquee { display: block; }
+  }
+  .hero__marquee ul {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    padding: 0.85rem 0;
+    margin: 0;
+    white-space: nowrap;
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.9rem;
+    color: var(--ink-faint);
+    width: max-content;
+    animation: marquee 34s linear infinite;
+  }
+  .hero__marquee li { display: flex; align-items: center; gap: 2.5rem; }
+  .hero__marquee li::after { content: "/"; color: var(--ember); }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__marquee { display: none; }
+  }
+
+  /* ---- Stat strip ---- */
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--surface-line);
+    border-block: 1px solid var(--surface-line);
+  }
+  @media (min-width: 40rem) { .stats { grid-template-columns: repeat(3, 1fr); } }
+  .stat {
+    background: var(--bg);
+    padding: var(--space-md) clamp(1.25rem, 5vw, 3rem);
+  }
+  .stat__num {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(2.75rem, 7vw, 4.25rem);
+    line-height: 0.9;
+    color: var(--ink);
+  }
+  .stat__num sup {
+    color: var(--ember);
+    font-size: 0.5em;
+    top: -0.55em;
+    margin-left: 0.05em;
+  }
+  .stat__label {
+    margin-top: 0.75rem;
+    color: var(--ink-muted);
+    font-size: 0.95rem;
+    text-wrap: balance;
+  }
+  .stat__label .ph { margin-top: 0.35rem; }
+
+  /* ---- What we run (services teaser) ---- */
+  .offer {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--surface-line);
+  }
+  .offer__cell {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: baseline;
+    gap: var(--space-xs) var(--space-sm);
+    padding-block: var(--space-md);
+    border-bottom: 1px solid var(--surface-line);
+    text-decoration: none;
+    transition: padding-left var(--dur) var(--ease-out);
+  }
+  .offer__cell:hover { padding-left: var(--space-xs); }
+  .offer__idx {
+    font-family: 'Anton', sans-serif;
+    font-size: 1rem;
+    color: var(--ember);
+    letter-spacing: 0.04em;
+  }
+  .offer__cell h3 { grid-column: 2; }
+  .offer__cell p {
+    grid-column: 2;
+    color: var(--ink-muted);
+    font-size: 0.98rem;
+    max-width: 52ch;
+  }
+  .offer__cta {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: center;
+    color: var(--ink-faint);
+    display: inline-flex;
+    transition: color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+  }
+  .offer__cta svg { width: 1.5rem; height: 1.5rem; }
+  .offer__cell:hover .offer__cta { color: var(--ember); transform: translateX(4px); }
+  @media (max-width: 40rem) {
+    .offer__cell { grid-template-columns: auto 1fr; }
+    .offer__cta { grid-column: 1 / -1; grid-row: auto; justify-self: start; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .offer__cell:hover { padding-left: 0; }
+    .offer__cell:hover .offer__cta { transform: none; }
+  }
+
+  /* ---- Selected work mosaic (teaser) ---- */
+  .mosaic {
+    display: grid;
+    gap: clamp(0.75rem, 2vw, 1.25rem);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 46rem) {
+    .mosaic {
+      grid-template-columns: repeat(6, 1fr);
+      grid-auto-rows: clamp(9rem, 15vw, 13rem);
+    }
+    .mosaic__item--a { grid-column: span 4; grid-row: span 2; }
+    .mosaic__item--b { grid-column: span 2; grid-row: span 1; }
+    .mosaic__item--c { grid-column: span 2; grid-row: span 1; }
+    .mosaic__item--d { grid-column: span 3; grid-row: span 2; }
+    .mosaic__item--e { grid-column: span 3; grid-row: span 2; }
+  }
+  .frame {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: var(--r-md);
+    background: var(--bg-raised);
+    text-decoration: none;
+    border: 1px solid var(--surface-line);
+    min-height: 12rem;
+  }
+  .frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--dur-slow) var(--ease-out),
+                filter var(--dur-slow) var(--ease-out);
+    filter: saturate(0.92) brightness(0.82);
+  }
+  .frame:hover img { transform: scale(1.04); filter: saturate(1.05) brightness(1); }
+  .frame:focus-visible img { filter: saturate(1.05) brightness(1); }
+  .frame__cap {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: var(--space-sm) var(--space-xs) var(--space-xs);
+    background: linear-gradient(to top, color-mix(in oklab, var(--bg) 92%, transparent), transparent);
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .frame__cap strong {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    font-size: 1.05rem;
+  }
+  .frame__cap span { font-size: 0.82rem; color: var(--ink-muted); }
+  .frame__tag {
+    position: absolute;
+    top: 0.75rem; left: 0.75rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--ember);
+    color: var(--ember-ink);
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--r-sm);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .frame img { transition: none; }
+    .frame:hover img { transform: none; }
+  }
+
+  /* ---- Process ---- */
+  .process {
+    display: grid;
+    gap: var(--space-md);
+    grid-template-columns: 1fr;
+    counter-reset: step;
+  }
+  @media (min-width: 52rem) { .process { grid-template-columns: repeat(3, 1fr); } }
+  .process__step { border-top: 2px solid var(--ember); padding-top: var(--space-sm); }
+  .process__step h3 {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  .process__step h3::before {
+    counter-increment: step;
+    content: "0" counter(step) "  ";
+    color: var(--ink-faint);
+  }
+  .process__step p { color: var(--ink-muted); font-size: 0.98rem; }
+
+  /* ---- Marquee logos (client placeholder) ---- */
+  .logos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm) var(--space-lg);
+    align-items: center;
+  }
+  .logos span {
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+    color: var(--ink-faint);
+    letter-spacing: 0.02em;
+  }
+
+  /* .cta-band, .two-col, .section-head now live in base.css */
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="wordmark" href="index.html" aria-label="AM Productions home">
+      AM<span>.</span>Productions <small>EST. INDIA</small>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+    </button>
+    <nav class="nav" id="primary-nav" aria-label="Primary">
+      <a href="work.html">Work</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn btn--primary" href="contact.html">Plan a night</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============================ HERO ============================ -->
+  <section class="hero">
+    <div class="hero__media">
+      <img
+        src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=2000&q=80"
+        alt="A packed festival crowd with arms raised as warm stage light floods over the front rows"
+        fetchpriority="high" width="2000" height="1333" />
+    </div>
+    <div class="container hero__inner">
+      <p class="eyebrow" style="margin-bottom: var(--space-sm)">Event production &middot; India</p>
+      <h1 class="display">
+        We run the room.
+        <span class="em">You take the credit.</span>
+      </h1>
+      <div class="hero__actions">
+        <a class="btn btn--primary btn--lg" href="contact.html">Plan a night</a>
+        <a class="btn btn--ghost btn--lg" href="work.html">See the work</a>
+      </div>
+      <p class="hero__note">
+        DJ nights, standup tours and live shows, booked and built end to end by Akash Makana and team.
+      </p>
+    </div>
+    <div class="hero__marquee" aria-hidden="true">
+      <ul>
+        <li>DJ Nights</li><li>Standup Comedy</li><li>Live Music</li><li>Stage &amp; Sound</li><li>Artist Booking</li><li>Tour Production</li>
+        <li>DJ Nights</li><li>Standup Comedy</li><li>Live Music</li><li>Stage &amp; Sound</li><li>Artist Booking</li><li>Tour Production</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================ STATS ============================ -->
+  <section aria-label="Track record" class="stats">
+    <div class="stat" data-settle>
+      <div class="stat__num">340<sup>+</sup></div>
+      <p class="stat__label">Shows produced since 2016 <span class="ph">placeholder</span></p>
+    </div>
+    <div class="stat" data-settle>
+      <div class="stat__num">18</div>
+      <p class="stat__label">Cities toured, Kochi to Shillong <span class="ph">placeholder</span></p>
+    </div>
+    <div class="stat" data-settle>
+      <div class="stat__num">9k</div>
+      <p class="stat__label">Largest single crowd handled <span class="ph">placeholder</span></p>
+    </div>
+  </section>
+
+  <!-- ======================= WHAT WE RUN ========================= -->
+  <section class="section" aria-labelledby="offer-title">
+    <div class="container">
+      <div class="two-col section-head" style="margin-bottom: var(--space-md)">
+        <div data-settle>
+          <p class="eyebrow" style="margin-bottom: var(--space-xs)">What we run</p>
+          <h2 class="display" id="offer-title">Three kinds of night, one crew</h2>
+        </div>
+        <p class="lede measure muted" data-settle>
+          Same people from the first call to load-out. You are not handed to a
+          junior team once the contract is signed.
+        </p>
+      </div>
+
+      <div class="offer" data-settle>
+        <a class="offer__cell" href="services.html#dj">
+          <span class="offer__idx">01</span>
+          <h3 class="display">DJ &amp; music nights</h3>
+          <p>Club nights, rooftop sessions and festival stages. Line-up curation, decks, monitoring and a floor that stays full.</p>
+          <span class="offer__cta" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+        <a class="offer__cell" href="services.html#standup">
+          <span class="offer__idx">02</span>
+          <h3 class="display">Standup &amp; comedy</h3>
+          <p>Single-night specials and multi-city tours. Room sizing, ticketing, green room and a clean recording setup.</p>
+          <span class="offer__cta" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+        <a class="offer__cell" href="services.html#live">
+          <span class="offer__idx">03</span>
+          <h3 class="display">Live shows &amp; concerts</h3>
+          <p>Bands and solo acts, ticketed or brand-hosted. Stage build, backline, front of house and artist liaison.</p>
+          <span class="offer__cta" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+        <a class="offer__cell" href="services.html#full" style="border-bottom:0">
+          <span class="offer__idx">04</span>
+          <h3 class="display">Full production</h3>
+          <p>You have the venue and the date, nothing else. We bring staging, sound, light, power, permits and crew.</p>
+          <span class="offer__cta" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <!-- ======================= SELECTED WORK ======================= -->
+  <section class="section" aria-labelledby="work-title">
+    <div class="container">
+      <div class="two-col section-head" style="margin-bottom: var(--space-md)">
+        <div data-settle>
+          <p class="eyebrow" style="margin-bottom: var(--space-xs)">Selected work</p>
+          <h2 class="display" id="work-title">Recent nights <span class="ph">images placeholder</span></h2>
+        </div>
+        <p class="lede measure muted" data-settle>
+          A slice of the last two years. Every photo here is a stand-in until
+          AM Productions supplies its own show gallery.
+        </p>
+      </div>
+
+      <div class="mosaic" data-settle>
+        <a class="frame mosaic__item--a" href="work.html">
+          <span class="frame__tag">DJ night</span>
+          <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1400&q=80" alt="A DJ working the booth above a dense club crowd washed in magenta and blue light" width="1400" height="933" loading="lazy" />
+          <span class="frame__cap"><strong>Neon Terrace, Vol. 4</strong><span>Rooftop club series &middot; Bengaluru</span></span>
+        </a>
+        <a class="frame mosaic__item--b" href="work.html">
+          <span class="frame__tag">Standup</span>
+          <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=900&q=80" alt="A single microphone on a stand against a dark stage with warm bokeh behind it" width="900" height="600" loading="lazy" />
+          <span class="frame__cap"><strong>Late Set Tour</strong><span>7 cities &middot; comedy special</span></span>
+        </a>
+        <a class="frame mosaic__item--c" href="work.html">
+          <span class="frame__tag">Live show</span>
+          <img src="https://images.unsplash.com/photo-1598387993441-a364f854c3e1?auto=format&fit=crop&w=900&q=80" alt="A guitarist mid-song on a stage lit blue and orange, drum kit behind" width="900" height="600" loading="lazy" />
+          <span class="frame__cap"><strong>Amps &amp; Open Air</strong><span>Ticketed concert &middot; Goa</span></span>
+        </a>
+        <a class="frame mosaic__item--d" href="work.html">
+          <span class="frame__tag">Festival</span>
+          <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=1200&q=80" alt="Confetti falling over a huge concert crowd with bright white stage lights ahead" width="1200" height="800" loading="lazy" />
+          <span class="frame__cap"><strong>Monsoon Mainstage</strong><span>Two-day festival build &middot; Pune</span></span>
+        </a>
+        <a class="frame mosaic__item--e" href="work.html">
+          <span class="frame__tag">DJ night</span>
+          <img src="https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?auto=format&fit=crop&w=1200&q=80" alt="Silhouetted dancers in a dark warehouse space with a bright doorway and neon floor reflections" width="1200" height="800" loading="lazy" />
+          <span class="frame__cap"><strong>Warehouse 21</strong><span>Underground party &middot; Mumbai</span></span>
+        </a>
+      </div>
+
+      <p style="margin-top: var(--space-md)">
+        <a class="arrow-link" href="work.html">
+          See the full gallery
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <!-- ========================= PROCESS ========================== -->
+  <section class="section" aria-labelledby="process-title">
+    <div class="container">
+      <div style="margin-bottom: var(--space-md)" data-settle>
+        <p class="eyebrow" style="margin-bottom: var(--space-xs)">How a booking runs</p>
+        <h2 class="display" id="process-title">Three stages, no surprises on the night</h2>
+      </div>
+      <div class="process" data-settle-stagger>
+        <div class="process__step">
+          <h3>Scope the room</h3>
+          <p>One call to fix the date, the act, the venue and the budget. You get a single-page plan and a fixed quote within three working days.</p>
+        </div>
+        <div class="process__step">
+          <h3>Build the show</h3>
+          <p>Artist contracts, stage and sound design, ticketing setup, permits, crew roster and a run sheet. You approve, we execute.</p>
+        </div>
+        <div class="process__step">
+          <h3>Run and hand back</h3>
+          <p>Our team is on site from load-in to load-out. You get the photos, the settlement and a short what-worked note within a week.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CLIENT LOGOS ======================== -->
+  <section class="section--tight" aria-labelledby="trust-title">
+    <div class="container">
+      <p class="footer-label" id="trust-title">Venues and brands we have built for <span class="ph">placeholder</span></p>
+      <div class="logos" data-settle>
+        <span>Kaia Rooftop</span>
+        <span>Antisocial</span>
+        <span>The Quarry</span>
+        <span>Fandom</span>
+        <span>Bay Arena</span>
+        <span>Studio Nine</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================== CTA BAND ========================= -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-band" data-settle>
+        <p class="eyebrow" style="margin-bottom: var(--space-sm)">Next step</p>
+        <h2 class="display">Tell us the date. We will tell you what it takes.</h2>
+        <div class="actions">
+          <a class="btn btn--primary btn--lg" href="contact.html">Start a booking</a>
+          <a class="btn btn--ghost btn--lg" href="services.html">Read the services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div>
+        <h2 class="display">AM<span style="color:var(--ember)">.</span>Productions</h2>
+        <p class="measure muted">
+          An event production house run by Akash Makana. Based in India,
+          on the road most weekends.
+        </p>
+      </div>
+      <div>
+        <p class="footer-label">Site</p>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="work.html">Work</a>
+          <a href="services.html">Services</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <div>
+        <p class="footer-label">Get in touch</p>
+        <div class="footer-nav footer-contact">
+          <a href="mailto:hello@amproductions.example">hello@amproductions.example <span class="ph">placeholder</span></a>
+          <a href="tel:+910000000000">+91 00000 00000 <span class="ph">placeholder</span></a>
+          <a href="#">Instagram <span class="ph">placeholder</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> AM Productions. Prototype layout, content pending.</span>
+      <span>Design prototype &middot; not the live site</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+</body>
+</html>

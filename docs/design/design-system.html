@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Design system - AM Productions prototype</title>
+<meta name="description" content="Tokens, type scale, components and states used across the AM Productions prototype pages." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="assets/base.css" />
+<style>
+  .page-head { padding-block: var(--space-lg) var(--space-md); border-bottom: 1px solid var(--surface-line); }
+  .page-head h1 { margin-block: var(--space-sm); max-width: 20ch; }
+  .ds-section { padding-block: var(--space-lg); border-bottom: 1px solid var(--surface-line); }
+  .ds-section h2 { margin-bottom: var(--space-sm); }
+  .ds-section h3 { margin-block: var(--space-md) var(--space-xs); }
+
+  .swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: var(--space-xs); }
+  .swatch { border: 1px solid var(--surface-line); border-radius: var(--r-md); overflow: hidden; }
+  .swatch__chip { height: 5rem; }
+  .swatch__body { padding: 0.7rem 0.85rem; font-size: 0.82rem; }
+  .swatch__body b { display: block; font-family: 'Archivo'; }
+  .swatch__body code { color: var(--ink-faint); font-size: 0.78rem; }
+
+  .type-row { border-top: 1px solid var(--surface-line); padding-block: var(--space-sm); }
+  .type-row small { color: var(--ink-faint); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .demo-grid { display: grid; gap: var(--space-sm); grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+  .demo-box {
+    border: 1px solid var(--surface-line);
+    border-radius: var(--r-md);
+    padding: var(--space-sm);
+    background: var(--bg-raised);
+    display: flex; flex-wrap: wrap; gap: var(--space-xs); align-items: center;
+  }
+  .demo-box h3 { margin: 0 0 var(--space-xs); width: 100%; }
+  table.tokens { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  table.tokens th, table.tokens td { text-align: left; padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--surface-line); }
+  table.tokens th { color: var(--ink-faint); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.75rem; }
+  table.tokens code { color: var(--ember-bright); }
+  .note {
+    border: 1px dashed var(--surface-line-strong);
+    border-radius: var(--r-md);
+    padding: var(--space-sm);
+    color: var(--ink-muted);
+    font-size: 0.92rem;
+  }
+  .pagelist { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
+  .pagelist a { color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--ember); padding-bottom: 2px; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="wordmark" href="index.html" aria-label="AM Productions home">AM<span>.</span>Productions <small>EST. INDIA</small></a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <nav class="nav" id="primary-nav" aria-label="Primary">
+      <a href="work.html">Work</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn btn--primary" href="contact.html">Plan a night</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container page-head">
+    <p class="eyebrow">Reference</p>
+    <h1 class="display">Design system, AM Productions prototype</h1>
+    <p class="measure muted">
+      The tokens and components behind the five prototype pages. Engineers:
+      port these into <code>src/app/globals.css</code> <code>@theme</code> and
+      <code>next/font</code>. Nothing here is a placeholder except where marked.
+    </p>
+  </div>
+
+  <div class="container">
+
+    <section class="ds-section" aria-labelledby="pages-h">
+      <h2 class="display" id="pages-h">Prototype pages</h2>
+      <ul class="pagelist">
+        <li><a href="index.html">Home</a> &mdash; hero, track record, services teaser, work mosaic, process, CTA</li>
+        <li><a href="work.html">Work</a> &mdash; filterable editorial mosaic, lightbox with keyboard nav, empty state</li>
+        <li><a href="services.html">Services</a> &mdash; four services with sticky jump nav, bolt-ons</li>
+        <li><a href="about.html">About</a> &mdash; story, principles, crew, numbers, timeline</li>
+        <li><a href="contact.html">Contact</a> &mdash; booking form with validation, error and success states</li>
+      </ul>
+    </section>
+
+    <section class="ds-section" aria-labelledby="strategy-h">
+      <h2 class="display" id="strategy-h">Direction</h2>
+      <div class="note measure">
+        <p><b>Register:</b> brand. The design is the product.</p>
+        <p style="margin-top: 0.6rem"><b>Colour strategy:</b> drenched near-black with a single ember accent. All colour comes from photography; the UI stays black, bone-white and one orange. No purple-and-cyan nightlife clich&eacute;, no gradient text, no glass.</p>
+        <p style="margin-top: 0.6rem"><b>Aesthetic lane:</b> gig-poster / flyposter. Heavy compressed display type, square corners, full-bleed imagery, editorial captions. Not editorial-serif, not SaaS-minimal.</p>
+        <p style="margin-top: 0.6rem"><b>Motion:</b> restrained. One settle-in on scroll, hover state changes, lightbox open/close, one hero marquee. Everything has a reduced-motion path and works without JS.</p>
+      </div>
+    </section>
+
+    <section class="ds-section" aria-labelledby="color-h">
+      <h2 class="display" id="color-h">Colour</h2>
+      <div class="swatches">
+        <div class="swatch"><div class="swatch__chip" style="background:#08080a"></div><div class="swatch__body"><b>Background</b><code>#08080a</code></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:#101014"></div><div class="swatch__body"><b>Raised surface</b><code>#101014</code></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:#050506"></div><div class="swatch__body"><b>Sunken</b><code>#050506</code></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:#f5f0e8"></div><div class="swatch__body"><b>Ink</b><code>#f5f0e8 &middot; 17.6:1</code></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:#b0a99c"></div><div class="swatch__body"><b>Ink muted</b><code>#b0a99c &middot; 8.6:1</code></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:#8a8478"></div><div class="swatch__body"><b>Ink faint</b><code>#8a8478 &middot; 5.4:1</code></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:#ff6a1a"></div><div class="swatch__body"><b>Ember</b><code>#ff6a1a &middot; 7.0:1</code></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:#ff8438"></div><div class="swatch__body"><b>Ember bright</b><code>#ff8438 (hover)</code></div></div>
+      </div>
+      <p class="note" style="margin-top: var(--space-sm)">
+        Contrast ratios are against <code>#08080a</code>, all above WCAG AA for body text.
+        Body copy uses ink or ink-muted. Ink-faint is reserved for labels, captions and
+        large display numbers. Text on the ember button uses <code>#0a0602</code> (7.1:1).
+      </p>
+    </section>
+
+    <section class="ds-section" aria-labelledby="type-h">
+      <h2 class="display" id="type-h">Type</h2>
+      <p class="measure muted">
+        Display: <b>Anton</b>, a heavy compressed grotesque with flyposter weight.
+        Body and UI: <b>Archivo</b>, a squarer grotesque. Contrast is weight and width,
+        not serif versus sans. Reflex picks (Bebas Neue, Barlow Condensed) were rejected.
+      </p>
+      <div class="type-row"><small>h1.display &middot; clamp 2.75 to 5.75rem</small><h1 class="display" style="margin-top:0.5rem">We run the room</h1></div>
+      <div class="type-row"><small>h2.display &middot; clamp 2.1 to 3.75rem</small><h2 class="display" style="margin-top:0.5rem">Recent nights, start to finish</h2></div>
+      <div class="type-row"><small>h3.display &middot; clamp 1.5 to 2.1rem</small><h3 class="display" style="margin-top:0.5rem">DJ &amp; music nights</h3></div>
+      <div class="type-row"><small>.lede &middot; clamp 1.15 to 1.4rem</small><p class="lede" style="margin-top:0.5rem">Same people from the first call to load-out.</p></div>
+      <div class="type-row"><small>body &middot; 1.0625rem / 1.65</small><p style="margin-top:0.5rem" class="measure">Club nights, rooftop sessions and festival stages. Line-up curation, decks, monitoring and a floor that stays full. This is the body measure, capped near 66 characters.</p></div>
+      <div class="type-row"><small>.eyebrow &middot; 0.8125rem, tracked, ember</small><p class="eyebrow" style="margin-top:0.5rem">What we run</p></div>
+    </section>
+
+    <section class="ds-section" aria-labelledby="comp-h">
+      <h2 class="display" id="comp-h">Components and states</h2>
+
+      <div class="demo-grid">
+        <div class="demo-box">
+          <h3>Buttons</h3>
+          <a class="btn btn--primary" href="#comp-h">Plan a night</a>
+          <a class="btn btn--ghost" href="#comp-h">See the work</a>
+          <button class="btn btn--primary" disabled style="opacity:.45; cursor:not-allowed">Disabled</button>
+        </div>
+        <div class="demo-box">
+          <h3>Arrow link</h3>
+          <a class="arrow-link" href="#comp-h">See the full gallery
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <div class="demo-box">
+          <h3>Filter chips</h3>
+          <button class="btn btn--ghost" style="min-height:2.75rem;border-radius:999px" aria-pressed="false">DJ nights</button>
+          <button class="btn btn--primary" style="min-height:2.75rem;border-radius:999px" aria-pressed="true">Standup</button>
+        </div>
+        <div class="demo-box">
+          <h3>Placeholder flag</h3>
+          <p>Real content pending <span class="ph">placeholder</span></p>
+        </div>
+      </div>
+
+      <h3 class="display">Interactive states covered in the prototype</h3>
+      <table class="tokens">
+        <thead><tr><th>Surface</th><th>States built</th></tr></thead>
+        <tbody>
+          <tr><td>Header nav</td><td>default, scrolled (border appears), mobile drawer open/closed, Esc to close, current-page marker</td></tr>
+          <tr><td>Links &amp; buttons</td><td>rest, hover, focus-visible (ember ring), active, disabled</td></tr>
+          <tr><td>Work mosaic</td><td>rest, hover (zoom + brighten + zoom icon), focus-visible, filtered, empty (no matches)</td></tr>
+          <tr><td>Lightbox</td><td>open, prev/next, arrow keys, click backdrop to close, Esc to close, focus return to trigger, counter</td></tr>
+          <tr><td>Contact form</td><td>rest, field focus, required error, invalid email, submit blocked + status message, success panel</td></tr>
+          <tr><td>Reduced motion</td><td>marquee stops, settle-in disabled, hover transforms removed, smooth scroll off</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="ds-section" aria-labelledby="tok-h" style="border-bottom:0">
+      <h2 class="display" id="tok-h">Token map for engineers</h2>
+      <table class="tokens">
+        <thead><tr><th>Prototype var</th><th>Value</th><th>Maps to globals.css</th></tr></thead>
+        <tbody>
+          <tr><td><code>--bg</code></td><td>#08080a</td><td><code>--background</code></td></tr>
+          <tr><td><code>--bg-raised</code></td><td>#101014</td><td><code>--surface</code></td></tr>
+          <tr><td><code>--bg-sunken</code></td><td>#050506</td><td><code>--surface-raised</code> (rename or add <code>--surface-sunken</code>)</td></tr>
+          <tr><td><code>--ink</code></td><td>#f5f0e8</td><td><code>--foreground</code></td></tr>
+          <tr><td><code>--ink-muted</code></td><td>#b0a99c</td><td><code>--muted</code></td></tr>
+          <tr><td><code>--surface-line</code></td><td>rgba(245,240,232,.12)</td><td><code>--hairline</code></td></tr>
+          <tr><td><code>--ember</code></td><td>#ff6a1a</td><td><code>--accent</code></td></tr>
+          <tr><td><code>--ember-ink</code></td><td>#0a0602</td><td><code>--accent-contrast</code></td></tr>
+        </tbody>
+      </table>
+      <p class="note" style="margin-top: var(--space-sm)">
+        This prototype is dark-only, matching the venue context. The repo ships
+        light + dark token blocks. Decision needed: keep dark-only, or build a
+        light theme too. Recommendation for this brand: dark-only. The room is dark.
+      </p>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div>
+        <h2 class="display">AM<span style="color:var(--ember)">.</span>Productions</h2>
+        <p class="measure muted">An event production house run by Akash Makana. Based in India, on the road most weekends.</p>
+      </div>
+      <div>
+        <p class="footer-label">Site</p>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="work.html">Work</a><a href="services.html">Services</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <div>
+        <p class="footer-label">Prototype</p>
+        <div class="footer-nav footer-contact">
+          <a href="index.html">Home</a>
+          <a href="design-system.html">Design system</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> AM Productions. Prototype layout, content pending.</span>
+      <span>Design prototype &middot; not the live site</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+</body>
+</html>
